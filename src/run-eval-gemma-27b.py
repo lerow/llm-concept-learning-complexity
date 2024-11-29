@@ -5,9 +5,14 @@ import re
 import time
 
 import os
+import argparse
 
 
 torch.manual_seed(1112)
+
+parser = argparse.ArgumentParser(prog='LLM concept learning')
+parser.add_argument('--data_path', '-d', type=str, required=True, help='path to data folder')
+args = parser.parse_args()
 
 
 #from huggingface_hub import login
@@ -56,16 +61,16 @@ def parse_output(s: str) -> int:
 
 
 ###########################################
-out_file = open("./s5-new-results-gemma_27b-sample-01.txt", "a", encoding="utf8")
+out_file = open("./gemma_27b-results.txt", "a", encoding="utf8")
 
-file_names = sorted( os.listdir("./data/s5/new-sample-01") )
+file_names = sorted( os.listdir(args.data_path) )
 
 acc_list = []
 
 
 for fname in file_names:
 
-    path = "./data/s5/new-sample-01/" + fname.strip()
+    path = args.data_path + fname.strip()
     
     if not os.path.isfile(path):
         continue

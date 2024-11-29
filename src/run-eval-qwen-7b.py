@@ -5,6 +5,7 @@ import re
 import time
 
 import os
+import argparse
 
 
 
@@ -12,6 +13,10 @@ import os
 # login()
 
 torch.manual_seed(1112)
+
+parser = argparse.ArgumentParser(prog='LLM concept learning')
+parser.add_argument('--data_path', '-d', type=str, required=True, help='path to data folder')
+args = parser.parse_args()
 
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -58,12 +63,12 @@ def parse_output(s: str) -> int:
 
 
 ########################################### '''
-out_file = open("./results-qwen_7b-s4.txt", "a", encoding="utf8")
+out_file = open("./qwen_7b-results.txt", "a", encoding="utf8")
 
-file_names = sorted( os.listdir("./data/standard") )
+file_names = sorted( os.listdir(args.data_path) )
 
 for fname in file_names:
-    path = "./data/standard/" + fname.strip()
+    path = args.data_path + fname.strip()
 
     if not os.path.isfile(path):
         continue

@@ -5,13 +5,17 @@ import re
 import time
 
 import os
-
+import argparse
 
 
 # from huggingface_hub import login
 # login()
 
 torch.manual_seed(1112)
+
+parser = argparse.ArgumentParser(prog='LLM concept learning')
+parser.add_argument('--data_path', '-d', type=str, required=True, help='path to data folder')
+args = parser.parse_args()
 
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -73,14 +77,14 @@ def parse_output(s: str) -> int:
 
 
 ########################################### '''
-out_file = open("./s5-new-results-qwen_72b-sample-01.txt", "a", encoding="utf8")
+out_file = open("./qwen_72b-results.txt", "a", encoding="utf8")
 
-file_names = sorted( os.listdir("./data/s5/new-sample-01") )
+file_names = sorted( os.listdir(args.data_path) )
 
 acc_list = []
 
 for fname in file_names:
-    path = "./data/s5/new-sample-01/" + fname.strip()
+    path = args.data_path + fname.strip()
 
     if not os.path.isfile(path):
         continue
